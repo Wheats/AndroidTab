@@ -2,8 +2,11 @@ package org.monster.android.tab.net;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
+import org.monster.android.tab.BuildConfig;
 import org.monster.android.tab.MiGoApplication;
+import org.monster.android.tab.utils.ConfigUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,26 +19,46 @@ import java.util.Map;
 
 public class ServiceHelper {
 
-    /**
-     * 设置当前连接的服务器环境；
-     *
-     * @return url host 路径
-     */
-    public static String buildUrl(String path) {
-        boolean isOnline = true;
-        return buildUrl(isOnline, path);
-    }
+    public static final String TAG = ServiceHelper.class.getSimpleName();
 
     /**
      * 设置当前连接的服务器环境；
      *
+     * @param key 服务器连接地址
      * @return url host 路径
      */
-    public static String buildUrl(boolean isOnline, String path) {
-//        String hostKey = "http://192.168.8.108:8090";
-//        String hostKey = "http://192.168.8.141:8088";
-        String hostKey = "http://47.92.88.164";
-        return hostKey+ path;
+    public static String buildUrl(String key) {
+        return buildUrl(key, false);
+    }
+
+    public static String buildUrl(String key, boolean https) {
+        String hostKey;
+        switch (BuildConfig.API_TYPE) {
+            case "release":
+                hostKey = ConfigUtils.getInstance().getProperty("api.v2.url.release");
+                break;
+            case "beta":
+                hostKey = ConfigUtils.getInstance().getProperty("api.v1.url.slave");
+                break;
+            case "debug":
+                hostKey = ConfigUtils.getInstance().getProperty("api.v2.url.debug");
+                break;
+            default:
+                hostKey = null;
+                break;
+        }
+        String host = ConfigUtils.getInstance().getProperty(hostKey + (https ? ".https" : ""));
+        if (host == null) {
+            Log.e(TAG, "Can't find host. BuildConfig.API_TYPE: " + BuildConfig.API_TYPE);
+            return "";
+        }
+
+        String path = ConfigUtils.getInstance().getProperty(key);
+        if (path == null) {
+            Log.e(TAG, "Can't find url with key " + key);
+            return "";
+        }
+        return hostKey + key;
     }
 
     /**
@@ -44,6 +67,12 @@ public class ServiceHelper {
     public static class ParamBuilder {
         Context mContext;
         Map<String, String> mParams;
+        boolean mNeedToken = true;
+
+        private static String mUUID;
+        private static String mChannel;
+        private static String mApkVersion;
+        private static String mDevType = "0";
 
         public ParamBuilder(Context context) {
             mContext = context;
@@ -91,7 +120,7 @@ public class ServiceHelper {
         }
 
         public Map<String, String> build() {
-            mParams.put("lon",  "");
+            mParams.put("lon", "");
             mParams.put("lat", "");
             mParams.put("devType", "0");//0Android  1IOS
             String sign = getSign();

@@ -2,6 +2,7 @@ package org.monster.android.tab.net;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -15,6 +16,8 @@ import java.util.Map;
  */
 
 public class XUtils {
+
+    public static final String TAG = XUtils.class.getSimpleName();
 
     private volatile static XUtils instance;
 
@@ -98,7 +101,7 @@ public class XUtils {
                 params.addBodyParameter(entry.getKey(), entry.getValue());
             }
         }
-
+        Log.d(TAG, url + "params : " + params.toString());
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

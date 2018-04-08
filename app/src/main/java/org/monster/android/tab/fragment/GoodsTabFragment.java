@@ -7,16 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.monster.android.tab.R;
+import org.monster.android.tab.biz.base.BaseFragment;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.x;
 
 /**
  * Created by monster on 23/3/18.
  */
 
+@ContentView(R.layout.fragment_goods)
 public class GoodsTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_goods, container, false);
+        View rootView = x.view().inject(this,inflater, container);
         return rootView;
     }
 

@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.monster.android.tab.MiGoApplication;
+import org.xutils.x;
 
-import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment implements BaseView {
 
@@ -22,8 +22,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mLayoutInflater = inflater;
-        View view= inflater.inflate(getLayoutResID(),container,false);
-        return view;
+        return  x.view().inject(this,inflater, container);
     }
 
     @Override
@@ -42,17 +41,13 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     protected abstract void detachPresenter();
 
     private void injectViews(View view) {
-        ButterKnife.bind(this, view);
+        x.view().inject(view);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-        ButterKnife.unbind(this);
-
         detachPresenter();
-
     }
 
     @Override

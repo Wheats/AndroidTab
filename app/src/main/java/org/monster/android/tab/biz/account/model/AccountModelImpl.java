@@ -22,8 +22,7 @@ public class AccountModelImpl implements AccountModel {
 
     @Override
     public void getVerifyCode(Context mContext, String phone, XUtils.ResultListener resultListener) {
-        String url = ServiceHelper.buildUrl("/app/sendCode");
-        Log.d("getVerifyCode",url);
+        String url = ServiceHelper.buildUrl("api.v2.action.sendcode");
         ServiceHelper.ParamBuilder paramBuilder = new ServiceHelper.ParamBuilder(mContext);
         paramBuilder.add("phone", phone);
         Map<String, String> params = paramBuilder.build();
@@ -32,7 +31,7 @@ public class AccountModelImpl implements AccountModel {
 
     @Override
     public void login(Context mContext, String phone, String code, String device, String channel_id, XUtils.ResultListener resultListener) {
-        String url = ServiceHelper.buildUrl("/user/login");
+        String url = ServiceHelper.buildUrl("api.v2.action.login");
         ServiceHelper.ParamBuilder paramBuilder = new ServiceHelper.ParamBuilder(mContext);
         paramBuilder.add("phone", phone)
                 .add("code", code)

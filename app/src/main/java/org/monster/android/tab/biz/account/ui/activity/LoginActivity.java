@@ -24,29 +24,28 @@ import org.monster.android.tab.biz.base.BaseActivity;
 import org.monster.android.tab.biz.base.ProgressView;
 import org.monster.android.tab.utils.Contetns;
 import org.monster.android.tab.utils.SharedPreferencesUtil;
-
-import butterknife.Bind;
-import butterknife.OnClick;
-
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
+import org.xutils.view.annotation.ViewInject;
 /**
  * Created by monster on 8/4/18.
  */
-
+@ContentView(R.layout.activity_login)
 public class LoginActivity extends BaseActivity implements LoginActivityView {
 
-    @Bind(R.id.login_phone)
+    @ViewInject(R.id.login_phone)
     EditText mLoginPhone;
-    @Bind(R.id.login_code)
+    @ViewInject(R.id.login_code)
     EditText mLoginCode;
-    @Bind(R.id.login)
+    @ViewInject(R.id.login)
     TextView mLoginButton;
-    @Bind(R.id.iv_login_qq)
+    @ViewInject(R.id.iv_login_qq)
     ImageView mIvLoginQq;
-    @Bind(R.id.iv_login_wechat)
+    @ViewInject(R.id.iv_login_wechat)
     ImageView mIvLoginWechat;
-    @Bind(R.id.iv_login_sina)
+    @ViewInject(R.id.iv_login_sina)
     ImageView mIvLoginSina;
-    @Bind(R.id.btn_get_code_ac_login)
+    @ViewInject(R.id.btn_get_code_ac_login)
     TextView btnGetCode;
 
     LoginActivityPresenter mPresenter;
@@ -108,8 +107,8 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
         mLoginCode.addTextChangedListener(textChangeL);
     }
 
-    @OnClick({R.id.btn_get_code_ac_login, R.id.login, R.id.iv_login_wechat, R.id.iv_login_sina, R.id.iv_login_qq})
-    public void onViewClicked(View view) {
+    @Event(value = {R.id.btn_get_code_ac_login, R.id.iv_login_wechat, R.id.iv_login_sina, R.id.iv_login_qq})
+    private void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_get_code_ac_login:
                 String phoneNum = mLoginPhone.getText().toString().trim();
@@ -145,7 +144,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
 
     @Override
     protected int getLayoutResID() {
-        return R.layout.activity_login;
+        return 0;
     }
 
     @Override
@@ -181,7 +180,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
 
     @Override
     public void showLoading(String msg) {
-        ProgressView.show(this,msg);
+        ProgressView.show(this, msg);
     }
 
     @Override
@@ -192,7 +191,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
     @Override
     public void loginSuccess(LoginJsonBean jsonBean) {
         Log.d("loginSuccess", jsonBean.toString());
-        Toast.makeText(LoginActivity.this, "loginSuccess : "+jsonBean.getData().getUser_name(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(LoginActivity.this, "loginSuccess : " + jsonBean.getData().getUser_name(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.monster.android.tab;
 import android.app.Application;
 import android.support.multidex.MultiDexApplication;
 
+import org.monster.android.tab.utils.ConfigUtils;
 import org.xutils.x;
 
 /**
@@ -25,5 +26,6 @@ public class MiGoApplication extends MultiDexApplication {
         app = this;
         x.Ext.init(this);
         x.Ext.setDebug(true);
+        ConfigUtils.getInstance().init(this, R.raw.app_config);
     }
 }

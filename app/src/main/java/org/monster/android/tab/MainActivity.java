@@ -13,9 +13,12 @@ import org.monster.android.tab.fragment.MineFragment;
 import org.monster.android.tab.utils.FragmentTabHost;
 import org.monster.android.tab.utils.TabLayout;
 import org.monster.android.tab.utils.ViewUtils;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.ViewInject;
 
 import butterknife.Bind;
 
+@ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
 
     public String[] tabTags = new String[]{"nearby", "live", "rainbow", "message", "mine"};
@@ -24,13 +27,13 @@ public class MainActivity extends BaseActivity {
     int[] tabCustomView = new int[]{R.layout.main_tab_near, R.layout.main_tab_live,
             R.layout.main_tab_rainbow, R.layout.main_tab_msg, R.layout.main_tab_mime};
 
-    @Bind(android.R.id.tabhost)
+    @ViewInject(android.R.id.tabhost)
     public FragmentTabHost mTabHost;
-    @Bind(R.id.main_tabs)
+    @ViewInject(R.id.main_tabs)
     public TabLayout mTabLayout;
-    @Bind(R.id.msgCount)
+    @ViewInject(R.id.msgCount)
     public TextView msgCount;
-    @Bind(R.id.msgCountLayout)
+    @ViewInject(R.id.msgCountLayout)
     public View msgCountLayout;
     private int mCurrentItem;
 
@@ -108,7 +111,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected int getLayoutResID() {
-        return R.layout.activity_main;
+//        return R.layout.activity_main;
+        return 0;
     }
 
     @Override

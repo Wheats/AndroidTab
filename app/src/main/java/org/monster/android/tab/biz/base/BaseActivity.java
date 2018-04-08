@@ -3,8 +3,8 @@ package org.monster.android.tab.biz.base;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import org.monster.android.tab.MiGoApplication;
+import org.xutils.x;
 
-import butterknife.ButterKnife;
 
 /**
  * @author zhanghuatao
@@ -24,14 +24,19 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 //                setStatusBarDarkModeForMIUI6(getWindow(), true);
 //            }
 //        }
-        if (getLayoutResID() > 0) {
+//        if (getLayoutResID() > 0) {
+//
+//            setContentView(getLayoutResID());
+//
+//            injectViews();
+//
+//            attachPresenter();
+//        }
 
-            setContentView(getLayoutResID());
+        injectViews();
 
-            injectViews();
+        attachPresenter();
 
-            attachPresenter();
-        }
     }
 
     protected abstract int getLayoutResID();
@@ -41,16 +46,15 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     protected abstract void detachPresenter();
 
     private void injectViews() {
-        ButterKnife.bind(this);
+        x.view().inject(this);
+//        ButterKnife.bind(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         dismissLoading();
-
-        ButterKnife.unbind(this);
-
+//        ButterKnife.unbind(this);
         detachPresenter();
     }
 
