@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AndroidTab</string>
     <string name="action_settings">Settings</string>
+    <string name="part_json_error">JSON 解析错误</string>
     <!-- new Home UI tabs -->
     <string name="tab_near_people">附近</string>
     <string name="tab_circle">圈子</string>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import org.monster.android.tab.biz.base.BaseActivity;
 import org.monster.android.tab.fragment.NearbyTabFragment;
 import org.monster.android.tab.fragment.LiveTabFragment;
 import org.monster.android.tab.fragment.GoodsTabFragment;
@@ -13,6 +14,8 @@ import org.monster.android.tab.utils.FragmentTabHost;
 import org.monster.android.tab.utils.TabLayout;
 import org.monster.android.tab.utils.ViewUtils;
 
+import butterknife.Bind;
+
 public class MainActivity extends BaseActivity {
 
     public String[] tabTags = new String[]{"nearby", "live", "rainbow", "message", "mine"};
@@ -21,33 +24,31 @@ public class MainActivity extends BaseActivity {
     int[] tabCustomView = new int[]{R.layout.main_tab_near, R.layout.main_tab_live,
             R.layout.main_tab_rainbow, R.layout.main_tab_msg, R.layout.main_tab_mime};
 
-    private FragmentTabHost mTabHost;
-    TabLayout mTabLayout;
-    private TextView msgCount;
-    private View msgCountLayout;
+    @Bind(android.R.id.tabhost)
+    public FragmentTabHost mTabHost;
+    @Bind(R.id.main_tabs)
+    public TabLayout mTabLayout;
+    @Bind(R.id.msgCount)
+    public TextView msgCount;
+    @Bind(R.id.msgCountLayout)
+    public View msgCountLayout;
     private int mCurrentItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        mTabLayout = (TabLayout) findViewById(R.id.main_tabs);
-        msgCount = (TextView) findViewById(R.id.msgCount);
-        msgCountLayout = findViewById(R.id.msgCountLayout);
+        initEvent();
+    }
+
+    protected void initEvent() {
 
         mTabHost.setup(this, getSupportFragmentManager(), R.id.container, false);
-
         for (int i = 0; i < tabTags.length; i++) {
             mTabHost.addTab(mTabHost.newTabSpec(tabTags[i]).setIndicator(tabTags[i]),
                     tabCls[i], null);
             mTabLayout.addTab(mTabLayout.newTab().setTag(tabTags[i]));
             mTabLayout.getTabAt(i).setCustomView(tabCustomView[i]);
         }
-
-        initEvent();
-    }
-    protected void initEvent() {
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -68,6 +69,7 @@ public class MainActivity extends BaseActivity {
         locateMsgCount();
         updateUnreadNumView(12);
     }
+
     /**
      * 未读数标签的位置
      */
@@ -79,6 +81,7 @@ public class MainActivity extends BaseActivity {
                 + getResources().getDimension(R.dimen.indicate_text_offset));
         msgCountLayout.setPadding(leftPadding, 0, 0, 0);
     }
+
     /**
      * 更新消息数
      *
@@ -101,5 +104,45 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    protected int getLayoutResID() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void attachPresenter() {
+
+    }
+
+    @Override
+    protected void detachPresenter() {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void showLoading(String msg) {
+        super.showLoading(msg);
+    }
+
+    @Override
+    public void hideLoading() {
+        super.hideLoading();
+    }
+
+    @Override
+    public void showError(String msg) {
+        super.showError(msg);
+    }
+
+    @Override
+    public void showEmpty(String msg) {
+        super.showEmpty(msg);
     }
 }
